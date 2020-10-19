@@ -36,7 +36,7 @@ func GenerateMnemonic(strength uint16, language Language) (string, error) {
 	if err != nil {
 		return "", err
 	}
-	words, err := entropyToMnemonic(entropy, wordlist)
+	words, err := EntropyToMnemonic(entropy, wordlist)
 	if err != nil {
 		return "", err
 	}
@@ -59,26 +59,6 @@ func randomBytes(length uint16) []byte {
 }
 
 func EntropyToMnemonic(entropy []byte, wordlist []string) ([]string, error) {
-	length := len(entropy)
-	if length < 16 || length > 32 || length%4 != 0 {
-		return nil, errors.New(InvalidEntropy)
-	}
-	entropyBits := bytesToBinary(entropy)
-	checksumBits := deriveChecksumBits(entropy)
-	bits := entropyBits + checksumBits
-	chunks := chunksRe.FindAllString(bits, -1)
-	words := []string{}
-	for _, binary := range chunks {
-		i, err := binaryToInt(binary)
-		if err != nil {
-			return words, err
-		}
-		words = append(words, wordlist[i])
-	}
-	return words, nil
-}
-
-func entropyToMnemonic(entropy []byte, wordlist []string) ([]string, error) {
 	length := len(entropy)
 	if length < 16 || length > 32 || length%4 != 0 {
 		return nil, errors.New(InvalidEntropy)

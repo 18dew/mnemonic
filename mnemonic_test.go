@@ -22,7 +22,7 @@ func TestMnemonicEnglish(t *testing.T) {
 		}
 		wordList, _ := GetWordList(LanguageEnglish)
 		fmt.Println(entropy)
-		mnemonic, err := entropyToMnemonic(entropy, wordList)
+		mnemonic, err := EntropyToMnemonic(entropy, wordList)
 		if err != nil {
 			t.Error(err)
 		}
@@ -165,7 +165,7 @@ func englishVectors() []Vector {
 func TestGenerateMnemonic(t *testing.T) {
 	seed, _ := hex.DecodeString("9e18c7f3ecb9f7dd56eda8ab58aa85d2")
 	w, _ := GetWordList(LanguageEnglish)
-	m, _ := entropyToMnemonic(seed, w)
+	m, _ := EntropyToMnemonic(seed, w)
 	res := strings.Join(m, "")
 	fmt.Println(seed, m, res)
 }
