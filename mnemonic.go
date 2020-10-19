@@ -31,7 +31,7 @@ func GenerateMnemonic(strength uint16, language Language) (string, error) {
 		return "", errors.New(InvalidStrength)
 	}
 	entropy := randomBytes(strength / 8)
-	fmt.Println( entropy )
+	fmt.Println(entropy)
 	wordlist, err := GetWordList(language)
 	if err != nil {
 		return "", err
@@ -58,7 +58,7 @@ func randomBytes(length uint16) []byte {
 	return token
 }
 
-func entropyToMnemonic(entropy []byte, wordlist []string) ([]string, error) {
+func EntropyToMnemonic(entropy []byte, wordlist []string) ([]string, error) {
 	length := len(entropy)
 	if length < 16 || length > 32 || length%4 != 0 {
 		return nil, errors.New(InvalidEntropy)
