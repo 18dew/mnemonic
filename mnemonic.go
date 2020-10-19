@@ -78,6 +78,26 @@ func EntropyToMnemonic(entropy []byte, wordlist []string) ([]string, error) {
 	return words, nil
 }
 
+func entropyToMnemonic(entropy []byte, wordlist []string) ([]string, error) {
+	length := len(entropy)
+	if length < 16 || length > 32 || length%4 != 0 {
+		return nil, errors.New(InvalidEntropy)
+	}
+	entropyBits := bytesToBinary(entropy)
+	checksumBits := deriveChecksumBits(entropy)
+	bits := entropyBits + checksumBits
+	chunks := chunksRe.FindAllString(bits, -1)
+	words := []string{}
+	for _, binary := range chunks {
+		i, err := binaryToInt(binary)
+		if err != nil {
+			return words, err
+		}
+		words = append(words, wordlist[i])
+	}
+	return words, nil
+}
+
 func deriveChecksumBits(bytes []byte) string {
 	ENT := len(bytes) * 8
 	CS := ENT / 32
