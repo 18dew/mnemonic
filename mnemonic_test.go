@@ -161,3 +161,11 @@ func englishVectors() []Vector {
 		},
 	}
 }
+
+func TestGenerateMnemonic(t *testing.T) {
+	seed, _ := hex.DecodeString("9e18c7f3ecb9f7dd56eda8ab58aa85d2")
+	w, _ := GetWordList(LanguageEnglish)
+	m, _ := entropyToMnemonic(seed, w)
+	res := strings.Join(m, "")
+	fmt.Println(seed, m, res)
+}
